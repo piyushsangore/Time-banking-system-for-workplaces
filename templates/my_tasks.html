@@ -1,0 +1,80 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Tasks</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+</head>
+<body class="bg-light">
+  <div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1 class="h3 mb-0">My Tasks</h1>
+      <a href="{{ url_for('tasks.dashboard') }}" class="btn btn-outline-secondary">Back to Dashboard</a>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card shadow-sm border-0 h-100">
+          <div class="card-body">
+            <h2 class="h5 mb-3">Tasks Created</h2>
+
+            {% if created_tasks %}
+              {% for task in created_tasks %}
+                <div class="border rounded p-3 mb-3 bg-white">
+                  <p class="mb-1"><strong>Title:</strong> {{ task.title }}</p>
+                  <p class="mb-1"><strong>Credits:</strong> {{ task.credits }}</p>
+                  <p class="mb-0">
+                    <strong>Status:</strong>
+                    <span class="badge bg-info">{{ task.status }}</span>
+                  </p>
+                  {% if task.status == "live" %}
+                    <a href="/delete-task/{{ task._id }}" class="btn btn-danger btn-sm mt-2">
+                      Delete Task
+                    </a>
+                  {% endif %}
+                  {% if task.status == "accepted" %}
+                    <a href="/complete-task/{{ task._id }}" class="btn btn-primary mt-2">
+                      Mark Completed
+                    </a>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            {% else %}
+              <p class="text-muted mb-0">No created tasks found.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card shadow-sm border-0 h-100">
+          <div class="card-body">
+            <h2 class="h5 mb-3">Tasks Accepted</h2>
+
+            {% if accepted_tasks %}
+              {% for task in accepted_tasks %}
+                <div class="border rounded p-3 mb-3 bg-white">
+                  <p class="mb-1"><strong>Title:</strong> {{ task.title }}</p>
+                  <p class="mb-1"><strong>Credits:</strong> {{ task.credits }}</p>
+                  <p class="mb-0">
+                    <strong>Status:</strong>
+                    <span class="badge bg-info">{{ task.status }}</span>
+                  </p>
+                </div>
+              {% endfor %}
+            {% else %}
+              <p class="text-muted mb-0">No accepted tasks found.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
